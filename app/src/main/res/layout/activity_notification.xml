@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/activityBackground"
     tools:context="com.renegades.labs.partygo.NotificationActivity">
 
     <ProgressBar
@@ -24,47 +25,49 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notification"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:textColor="@color/colorAccent"/>
+            android:layout_weight="0">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/receiver"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Receiver phone number"
-                android:maxLines="1" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/notification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Notification"
-                android:maxLines="1" />
+                android:hint="Message"
+                android:maxLines="2" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/send_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="Send Notification"
             android:textStyle="bold"
             android:textColor="@android:color/background_light"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Whom"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="@color/colorAccent"/>
+
+        <ListView
+            android:id="@+id/recipients_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
 
     </LinearLayout>
 

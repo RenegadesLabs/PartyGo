@@ -7,9 +7,18 @@ package com.renegades.labs.partygo;
 public class MyContact{
     private String name;
     private String phone;
+    private boolean isChecked;
     private int id;
 
     public MyContact() {
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public void setName(String name) {
