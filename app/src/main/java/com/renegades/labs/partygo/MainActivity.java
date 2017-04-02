@@ -52,6 +52,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+        switch (view.getId()){
+            case R.id.ladies_button:
+                intent.putExtra("theme", "ladies");
+                break;
+            case R.id.mens_button:
+                intent.putExtra("theme", "men");
+                break;
+            case R.id.birthday_button:
+                intent.putExtra("theme", "birthday");
+                break;
+            case R.id.child_birthday_button:
+                intent.putExtra("theme", "childBirthday");
+                break;
+            case R.id.wedding_button:
+                intent.putExtra("theme", "wedding");
+                break;
+        }
         startActivity(intent);
     }
 

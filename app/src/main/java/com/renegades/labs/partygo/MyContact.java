@@ -8,9 +8,19 @@ public class MyContact{
     private String name;
     private String phone;
     private boolean isChecked;
+    private int priority;
     private int id;
 
     public MyContact() {
+        this.priority = 0;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public boolean isChecked() {
@@ -43,5 +53,19 @@ public class MyContact{
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MyContact){
+            MyContact contact = (MyContact) obj;
+            if (this.name.equals(contact.getName())){
+                if (this.phone.equals(contact.getPhone())){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
