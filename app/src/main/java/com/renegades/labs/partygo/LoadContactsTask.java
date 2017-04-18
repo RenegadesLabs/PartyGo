@@ -9,22 +9,24 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.BaseAdapter;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Виталик on 02.04.2017.
  */
 
-public class LoadContactsTast extends AsyncTask<Void, Void, List<MyContact>> {
+public class LoadContactsTask extends AsyncTask<Void, Void, List<MyContact>> {
     private Context mContext;
     private BaseAdapter adapter;
     private List<MyContact> contactsList;
-    private static final String TAG = "LoadContactsTast";
+    private static final String TAG = "LoadContactsTask";
 
-    public LoadContactsTast(Context mContext, BaseAdapter adapter, List<MyContact> contactsList) {
+    public LoadContactsTask(Context mContext, BaseAdapter adapter, List<MyContact> contactsList) {
         this.mContext = mContext;
         this.adapter = adapter;
         this.contactsList = contactsList;
@@ -102,14 +104,13 @@ public class LoadContactsTast extends AsyncTask<Void, Void, List<MyContact>> {
         Collections.sort(contactsList, new Comparator<MyContact>() {
             @Override
             public int compare(MyContact myContact, MyContact t1) {
-                if (t1.getPriority() - myContact.getPriority() != 0) {
-                    Log.d(TAG, "Priority1 = " + myContact.getPriority());
-                    Log.d(TAG, "Priority2 = " + t1.getPriority());
-                    Log.d(TAG, "result = " + (myContact.getPriority() - t1.getPriority()));
+                Collator collator = Collator.getInstance(Locale.getDefault());
+                collator.setStrength(Collator.PRIMARY);
 
+                if (t1.getPriority() - myContact.getPriority() != 0) {
                     return t1.getPriority() - myContact.getPriority();
                 } else {
-                    return myContact.getName().compareToIgnoreCase(t1.getName());
+                    return collator.compare(myContact.getName(), t1.getName());
                 }
             }
         });
@@ -123,10 +124,13 @@ public class LoadContactsTast extends AsyncTask<Void, Void, List<MyContact>> {
         Collections.sort(contactsList, new Comparator<MyContact>() {
             @Override
             public int compare(MyContact myContact, MyContact t1) {
+                Collator collator = Collator.getInstance(Locale.getDefault());
+                collator.setStrength(Collator.PRIMARY);
+
                 if (t1.getPriority() - myContact.getPriority() != 0) {
                     return t1.getPriority() - myContact.getPriority();
                 } else {
-                    return myContact.getName().compareToIgnoreCase(t1.getName());
+                    return collator.compare(myContact.getName(), t1.getName());
                 }
             }
         });

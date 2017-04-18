@@ -1,15 +1,13 @@
 package com.renegades.labs.partygo;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,12 +21,16 @@ import java.util.HashMap;
 
 public class NotificationActivity extends AppCompatActivity {
 
+    static final String TAG = "NotificationActivity";
     private EditText notificationEditText;
     private View mProgressView;
     private View mSendFormView;
     private ListView contactsListView;
     ArrayList<String> phonesList;
     ArrayList<String> recipientsList;
+    String theme;
+    SharedPreferences prefs = null;
+    FrameLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +41,34 @@ public class NotificationActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress_2);
         contactsListView = (ListView) findViewById(R.id.recipients_list);
         notificationEditText = (EditText) findViewById(R.id.notification);
+        rootLayout = (FrameLayout) findViewById(R.id.root_notification);
+
+        prefs = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             phonesList = extras.getStringArrayList("phones");
             recipientsList = extras.getStringArrayList("recipients");
-            String theme = extras.getString("theme");
-            if (!theme.equals("")) {
+            theme = extras.getString("theme");
+            if (theme != null) {
                 ImageView backgroundImage = (ImageView) findViewById(
                         R.id.background_image_notification);
-                if (theme.equals("men")) {
-                    backgroundImage.setImageResource(R.drawable.men);
-                } else if (theme.equals("ladies")) {
-                    backgroundImage.setImageResource(R.drawable.lady);
-                } else if (theme.equals("birthday")) {
-                    backgroundImage.setImageResource(R.drawable.birthday);
-                } else if (theme.equals("childBirthday")) {
-                    backgroundImage.setImageResource(R.drawable.child_birthday);
-                } else if (theme.equals("wedding")) {
-                    backgroundImage.setImageResource(R.drawable.wedding);
+                switch (theme) {
+                    case "men":
+                        backgroundImage.setImageResource(R.drawable.men);
+                        break;
+                    case "ladies":
+                        backgroundImage.setImageResource(R.drawable.lady);
+                        break;
+                    case "birthday":
+                        backgroundImage.setImageResource(R.drawable.birthday);
+                        break;
+                    case "childBirthday":
+                        backgroundImage.setImageResource(R.drawable.child_birthday);
+                        break;
+                    case "wedding":
+                        backgroundImage.setImageResource(R.drawable.wedding);
+                        break;
                 }
             }
         } else {
@@ -70,10 +81,10 @@ public class NotificationActivity extends AppCompatActivity {
 
         contactsListView.setAdapter(itemsAdapter);
 
-        Button sendButton = (Button) findViewById(R.id.send_button);
+        ImageButton sendButton = (ImageButton) findViewById(R.id.send_button);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 showProgress(true);
                 String notificationMessage = notificationEditText.getText().toString();
 
@@ -84,18 +95,22 @@ public class NotificationActivity extends AppCompatActivity {
                         phoneNo = phoneNo + "partygo";
                         HashMap<String, Object> params = new HashMap<>();
                         params.put("channel", phoneNo);
+                        params.put("sender", prefs.getString("userName", ""));
                         params.put("message", notificationMessage);
+                        params.put("theme", theme);
                         ParseCloud.callFunctionInBackground("push", params, new FunctionCallback<String>() {
                             public void done(String success, ParseException e) {
                                 if (e == null) {
                                     showProgress(false);
                                     Toast.makeText(NotificationActivity.this,
-                                            "Notification sent", Toast.LENGTH_LONG).show();
+                                            getString(R.string.message_sent),
+                                            Toast.LENGTH_SHORT).show();
                                 } else {
-                                    showProgress(false);
                                     e.printStackTrace();
+                                    showProgress(false);
                                     Toast.makeText(NotificationActivity.this,
-                                            "Notification FAILED", Toast.LENGTH_LONG).show();
+                                            getString(R.string.message_failed),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -107,32 +122,8 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mSendFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mSendFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mSendFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mSendFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mSendFormView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 }

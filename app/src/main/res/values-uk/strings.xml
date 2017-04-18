@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Party Go</string>
+    <string name="preference_file_key">com.renegades.labs.partygo</string>
+    <string name="birthday">День народження</string>
+    <string name="child_birthday">ДН малюка</string>
+    <string name="wedding">Весілля</string>
+    <string name="send_invitation">Надіслати запрошення</string>
+    <string name="message_hint">Повідомлення</string>
+    <string name="whom">Кому</string>
+    <string name="message_failed">помилка</string>
+    <string name="message_sent">надіслано</string>
+    <string name="ladies_day">Ladies day</string>
+    <string name="mens_day">Men\'s day</string>
+</resources>

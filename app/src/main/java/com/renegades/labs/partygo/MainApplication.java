@@ -8,6 +8,7 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
+import com.parse.ParsePushBroadcastReceiver;
 import com.parse.SaveCallback;
 
 /**
@@ -63,5 +64,6 @@ public class MainApplication extends Application {
                     Log.d("Parse", "Failed");
             }
         });
+
     }
 }

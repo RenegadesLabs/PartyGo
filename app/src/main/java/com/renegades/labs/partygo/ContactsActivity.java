@@ -62,7 +62,7 @@ public class ContactsActivity extends AppCompatActivity {
         myListViewAdapter = new MyListViewAdapter(this, contactsList);
         contactsListView.setAdapter(myListViewAdapter);
 
-        AsyncTask<Void, Void, List<MyContact>> asyncTask = new LoadContactsTast(this,
+        AsyncTask<Void, Void, List<MyContact>> asyncTask = new LoadContactsTask(this,
                 myListViewAdapter, contactsList);
         asyncTask.execute();
 

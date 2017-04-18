@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".NotificationActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
+            android:windowSoftInputMode="stateVisible|adjustPan" />
 
         <meta-data
             android:name="com.parse.push.gcm_sender_id"
@@ -54,7 +54,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:name=".MyBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -63,7 +63,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ContactsActivity"></activity>
+        <activity android:name=".ContactsActivity" />
+        <activity android:name=".IncomingMessageActivity"></activity>
     </application>
 
 </manifest>

@@ -21,41 +21,41 @@
             android:id="@+id/ladies_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="Ladies day"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/ladies_day"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/mens_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Mens day"
+            android:layout_height="56dp"
+            android:text="@string/mens_day"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/birthday_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Birthday"
+            android:layout_height="56dp"
+            android:text="@string/birthday"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/child_birthday_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Child birthday"
+            android:layout_height="56dp"
+            android:text="@string/child_birthday"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/wedding_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="Wedding"
+            android:layout_height="56dp"
+            android:text="@string/wedding"
             android:textSize="24sp"/>
 
     </LinearLayout>

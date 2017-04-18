@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -18,9 +17,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
-import java.util.Locale;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String mPhoneNumber;
     SharedPreferences prefs = null;
 
@@ -29,13 +26,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        prefs = getSharedPreferences("com.renegades.labs.partygo", MODE_PRIVATE);
+        prefs = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
 
         TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneNumber = tMgr.getLine1Number();
-
-        String toast = String.format(Locale.ENGLISH, "Phone Number is %s", mPhoneNumber);
-        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
 
         Button ladiesButton = (Button) findViewById(R.id.ladies_button);
         ladiesButton.setOnClickListener(this);
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ladies_button:
                 intent.putExtra("theme", "ladies");
                 break;
@@ -91,10 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void attemptSignIn(String phoneNumber) {
         ParseUser user = new ParseUser();
-        String toast = String.format(Locale.ENGLISH, "Phone Number is %s", phoneNumber);
-        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
 
         final String userName = phoneNumber + "partygo";
+        prefs.edit().putString("userName", userName).apply();
 
         ParsePush.subscribeInBackground(userName, new SaveCallback() {
             @Override

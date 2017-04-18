@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Party Go</string>
+    <string name="birthday">День рождения</string>
+    <string name="child_birthday">ДР малыша</string>
+    <string name="ladies_day">Ladies day</string>
+    <string name="mens_day">Men\'s day</string>
+    <string name="message_failed">ошибка</string>
+    <string name="message_hint">Сообщение</string>
+    <string name="message_sent">отправлено</string>
+    <string name="preference_file_key">com.renegades.labs.partygo</string>
+    <string name="send_invitation">Отправить приглашение</string>
+    <string name="wedding">Свадьба</string>
+    <string name="whom">Кому</string>
+</resources>
