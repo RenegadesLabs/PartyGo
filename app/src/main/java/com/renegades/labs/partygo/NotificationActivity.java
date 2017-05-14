@@ -1,8 +1,11 @@
 package com.renegades.labs.partygo;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -12,12 +15,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -86,40 +93,70 @@ public class NotificationActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 showProgress(true);
-                String notificationMessage = notificationEditText.getText().toString();
+                final String notificationMessage = notificationEditText.getText().toString();
 
                 for (int i = 0; i < phonesList.size(); i++) {
                     String phoneNo = phonesList.get(i);
 
                     if (!phoneNo.equals("") && !notificationMessage.equals("")) {
                         phoneNo = phoneNo + "partygo";
-                        HashMap<String, Object> params = new HashMap<>();
+                        final HashMap<String, Object> params = new HashMap<>();
                         params.put("channel", phoneNo);
                         params.put("sender", prefs.getString("userName", ""));
                         params.put("message", notificationMessage);
                         params.put("theme", theme);
-                        ParseCloud.callFunctionInBackground("push", params, new FunctionCallback<String>() {
-                            public void done(String success, ParseException e) {
+
+                        ParseQuery<ParseUser> query = ParseUser.getQuery();
+                        query.whereEqualTo("username", phoneNo);
+                        final String finalPhoneNo = phoneNo;
+                        query.findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> objects, ParseException e) {
                                 if (e == null) {
-                                    showProgress(false);
-                                    Toast.makeText(NotificationActivity.this,
-                                            getString(R.string.message_sent),
-                                            Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, "users:" + objects.toString());
+
+                                    if (objects.size() != 0) {
+                                        Log.d(TAG, "user has ParyGo: true");
+                                        ParseCloud.callFunctionInBackground("push", params, new FunctionCallback<String>() {
+                                            public void done(String success, ParseException e) {
+                                                if (e == null) {
+                                                    showProgress(false);
+                                                    Toast.makeText(NotificationActivity.this,
+                                                            getString(R.string.message_sent),
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    e.printStackTrace();
+                                                    showProgress(false);
+                                                    Toast.makeText(NotificationActivity.this,
+                                                            getString(R.string.message_failed),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        Log.d(TAG, "user has ParyGo: false");
+                                        Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("sms:" + finalPhoneNo));
+                                        intent.putExtra("sms_body", notificationMessage
+                                                + "\n\nInstall PartyGo from Google Play");
+
+                                        showProgress(false);
+                                        startActivity(intent);
+                                    }
                                 } else {
-                                    e.printStackTrace();
                                     showProgress(false);
-                                    Toast.makeText(NotificationActivity.this,
-                                            getString(R.string.message_failed),
-                                            Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
                                 }
                             }
                         });
+
                     } else {
                         showProgress(false);
                     }
                 }
             }
         });
+
     }
 
     private void showProgress(final boolean show) {

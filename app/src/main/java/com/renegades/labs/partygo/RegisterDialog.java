@@ -24,13 +24,17 @@ public class RegisterDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.dialog_register, container);
+        View v = inflater.inflate(R.layout.dialog_register, null);
 
         final EditText phoneEditText = (EditText) v.findViewById(R.id.phone_number);
-        if (mPhoneNumber.equals("")) {
-            phoneEditText.setText("380");
+        if (mPhoneNumber != null) {
+            if (mPhoneNumber.equals("")) {
+                phoneEditText.setText("380");
+            } else{
+                phoneEditText.setText(mPhoneNumber);
+            }
         } else {
-            phoneEditText.setText(mPhoneNumber);
+            phoneEditText.setText("380");
         }
         Button registerButton = (Button) v.findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +47,7 @@ public class RegisterDialog extends DialogFragment {
                 }
             }
         });
+
         return v;
     }
 
