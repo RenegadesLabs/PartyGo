@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.parse.ParseException;
-
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

@@ -1,11 +1,13 @@
 package com.renegades.labs.partygo;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -83,8 +85,14 @@ public class ContactsActivity extends AppCompatActivity {
                         phoneNo = phoneNo.replaceAll(" ", "");
                         if (phoneNo.charAt(0) == '+') {
                             phoneNo = phoneNo.substring(1);
-                        } else if (phoneNo.charAt(0) == '0') {
-                            phoneNo = "38" + phoneNo;
+                        } else if (phoneNo.length() < 12) {
+                            int differ = 12 - phoneNo.length();
+                            String code = getCountryZipCode();
+                            if (code.length() == differ) {
+                                phoneNo = code + phoneNo;
+                            } else {
+                                phoneNo = code.substring(0, differ) + phoneNo;
+                            }
                         }
 
                         String recipient = contactsList.get(i).getName();
@@ -119,6 +127,24 @@ public class ContactsActivity extends AppCompatActivity {
 
         Log.d(TAG, "putInDatabase: name = " + contact.getName());
         Log.d(TAG, "putInDatabase: priority = " + (contact.getPriority() + 1));
+    }
+
+    public String getCountryZipCode() {
+        String CountryID = "";
+        String CountryZipCode = "";
+
+        TelephonyManager manager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        //getNetworkCountryIso
+        CountryID = manager.getSimCountryIso().toUpperCase();
+        String[] rl = this.getResources().getStringArray(R.array.CountryCodes);
+        for (String aRl : rl) {
+            String[] g = aRl.split(",");
+            if (g[1].trim().equals(CountryID.trim())) {
+                CountryZipCode = g[0];
+                break;
+            }
+        }
+        return CountryZipCode;
     }
 
 }

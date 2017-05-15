@@ -77,7 +77,7 @@ public class IncomingMessageActivity extends AppCompatActivity {
                 }
             }
 
-            String senderName = getContactDisplayNameByNumber(phoneNo);
+            String senderName = getContactDisplayNameByNumber(phoneNo.replaceAll("partygo", ""));
             getSupportActionBar().setTitle(senderName);
 
             final TextView textView = (TextView) findViewById(R.id.incomingMessageTextView);
@@ -156,7 +156,7 @@ public class IncomingMessageActivity extends AppCompatActivity {
         }
 
         if (name.equals("?")){
-            name = number;
+            name = number.replaceAll("partygo", "");
         }
         return name;
     }
