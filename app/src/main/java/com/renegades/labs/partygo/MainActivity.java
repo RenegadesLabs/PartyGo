@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.READ_SMS},
                 1);
 
+        Button partyGoButton = (Button) findViewById(R.id.party_go_button);
+        partyGoButton.setOnClickListener(this);
         Button ladiesButton = (Button) findViewById(R.id.ladies_button);
         ladiesButton.setOnClickListener(this);
         Button mensButton = (Button) findViewById(R.id.mens_button);
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
         switch (view.getId()) {
+            case R.id.party_go_button:
+                intent.putExtra("theme", "partyGo");
+                break;
             case R.id.ladies_button:
                 intent.putExtra("theme", "ladies");
                 break;

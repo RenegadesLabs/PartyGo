@@ -61,20 +61,29 @@ public class NotificationActivity extends AppCompatActivity {
                 ImageView backgroundImage = (ImageView) findViewById(
                         R.id.background_image_notification);
                 switch (theme) {
+                    case "partyGo":
+                        backgroundImage.setImageResource(R.drawable.party_go);
+                        getSupportActionBar().setTitle(R.string.party_go);
+                        break;
                     case "men":
                         backgroundImage.setImageResource(R.drawable.men);
+                        getSupportActionBar().setTitle(R.string.mens_day);
                         break;
                     case "ladies":
                         backgroundImage.setImageResource(R.drawable.lady);
+                        getSupportActionBar().setTitle(R.string.ladies_day);
                         break;
                     case "birthday":
                         backgroundImage.setImageResource(R.drawable.birthday);
+                        getSupportActionBar().setTitle(R.string.birthday);
                         break;
                     case "childBirthday":
                         backgroundImage.setImageResource(R.drawable.child_birthday);
+                        getSupportActionBar().setTitle(R.string.child_birthday);
                         break;
                     case "wedding":
                         backgroundImage.setImageResource(R.drawable.wedding);
+                        getSupportActionBar().setTitle(R.string.wedding);
                         break;
                 }
             }

@@ -219,4 +219,5 @@
         <item>260,ZM</item>
         <item>263,ZW</item>
     </string-array>
+    <string name="party_go">Party Go</string>
 </resources>

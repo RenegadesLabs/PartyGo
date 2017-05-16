@@ -2,20 +2,15 @@ package com.renegades.labs.partygo;
 
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,6 +49,10 @@ public class IncomingMessageActivity extends AppCompatActivity {
                 ImageView backgroundImage = (ImageView)
                         findViewById(R.id.background_image_incoming);
                 switch (theme) {
+                    case "partyGo":
+                        backgroundImage.setImageResource(R.drawable.party_go);
+                        themeTextView.setText(R.string.party_go);
+                        break;
                     case "men":
                         backgroundImage.setImageResource(R.drawable.men);
                         themeTextView.setText(getString(R.string.mens_day));
@@ -121,7 +120,7 @@ public class IncomingMessageActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
-                        layoutParams.setMargins(32, 16, 0, 0);
+                        layoutParams.setMargins(64, 16, 0, 0);
                         reply.setLayoutParams(layoutParams);
                         reply.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                         reply.setTextColor(ContextCompat.getColor(IncomingMessageActivity.this,
@@ -155,7 +154,7 @@ public class IncomingMessageActivity extends AppCompatActivity {
             }
         }
 
-        if (name.equals("?")){
+        if (name.equals("?")) {
             name = number.replaceAll("partygo", "");
         }
         return name;

@@ -34,16 +34,31 @@ public class ContactsActivity extends AppCompatActivity {
         theme = intent.getStringExtra("theme");
         if (theme != null) {
             ImageView backgroundImage = (ImageView) findViewById(R.id.background_image_contacts);
-            if (theme.equals("men")) {
-                backgroundImage.setImageResource(R.drawable.men);
-            } else if (theme.equals("ladies")) {
-                backgroundImage.setImageResource(R.drawable.lady);
-            } else if (theme.equals("birthday")) {
-                backgroundImage.setImageResource(R.drawable.birthday);
-            } else if (theme.equals("childBirthday")) {
-                backgroundImage.setImageResource(R.drawable.child_birthday);
-            } else if (theme.equals("wedding")) {
-                backgroundImage.setImageResource(R.drawable.wedding);
+            switch (theme) {
+                case "partyGo":
+                    backgroundImage.setImageResource(R.drawable.party_go);
+                    getSupportActionBar().setTitle(R.string.party_go);
+                    break;
+                case "men":
+                    backgroundImage.setImageResource(R.drawable.men);
+                    getSupportActionBar().setTitle(R.string.mens_day);
+                    break;
+                case "ladies":
+                    backgroundImage.setImageResource(R.drawable.lady);
+                    getSupportActionBar().setTitle(R.string.ladies_day);
+                    break;
+                case "birthday":
+                    backgroundImage.setImageResource(R.drawable.birthday);
+                    getSupportActionBar().setTitle(R.string.birthday);
+                    break;
+                case "childBirthday":
+                    backgroundImage.setImageResource(R.drawable.child_birthday);
+                    getSupportActionBar().setTitle(R.string.child_birthday);
+                    break;
+                case "wedding":
+                    backgroundImage.setImageResource(R.drawable.wedding);
+                    getSupportActionBar().setTitle(R.string.wedding);
+                    break;
             }
         } else {
             theme = "";
@@ -90,7 +105,7 @@ public class ContactsActivity extends AppCompatActivity {
                             String code = getCountryZipCode();
                             if (code.length() == differ) {
                                 phoneNo = code + phoneNo;
-                            } else {
+                            } else if (code.length() > differ) {
                                 phoneNo = code.substring(0, differ) + phoneNo;
                             }
                         }
